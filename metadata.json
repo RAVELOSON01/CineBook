@@ -1,0 +1,5 @@
+{
+  "name": "CineBook",
+  "description": "CineBook is a personal portfolio project for a movie ticket booking web application. I am requesting API access to fetch real movie titles, posters, and descriptions to populate my database for demonstration and educational purposes. The app is not for commercial use.",
+  "requestFramePermissions": []
+}
