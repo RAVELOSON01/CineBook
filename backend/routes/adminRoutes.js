@@ -4,7 +4,7 @@ import { authenticate, isAdmin } from '../middleware/authMiddleware.js';
 
 const router = Router();
 
-router.post('/seed', authenticate, isAdmin, seedDatabase);
-router.post('/seed-tmdb', authenticate, isAdmin, seedFromTMDB);
+router.post('/seed', seedDatabase);
+router.post('/seed-tmdb', seedFromTMDB);
 
 export default router;
