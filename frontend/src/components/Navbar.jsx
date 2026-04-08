@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
-import { Film, LogOut, User as UserIcon } from 'lucide-react';
+import { Film, LogOut, User as UserIcon, Menu, X } from 'lucide-react';
 
 export const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
+    setIsOpen(false);
     navigate('/login');
   };
 
@@ -21,7 +23,8 @@ export const Navbar = () => {
             <span>CineBook</span>
           </Link>
           
-          <div className="flex items-center gap-6">
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center gap-6">
             <Link to="/" className="hover:text-amber-400 transition-colors">Movies</Link>
             {user ? (
               <>
@@ -46,8 +49,46 @@ export const Navbar = () => {
               </>
             )}
           </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-zinc-400 hover:text-white focus:outline-none">
+              {isOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-zinc-900 border-t border-zinc-800">
+          <div className="px-4 py-4 space-y-3 flex flex-col">
+            <Link to="/" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md hover:bg-zinc-800 hover:text-amber-400 transition-colors text-lg">Movies</Link>
+            {user ? (
+              <>
+                <Link to="/dashboard" onClick={() => setIsOpen(false)} className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-zinc-800 hover:text-amber-400 transition-colors text-lg">
+                  <UserIcon size={20} />
+                  <span>{user.name}'s Dashboard</span>
+                </Link>
+                <button 
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-md text-zinc-400 hover:bg-zinc-800 hover:text-red-400 transition-colors text-lg"
+                >
+                  <LogOut size={20} />
+                  <span>Logout</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md hover:bg-zinc-800 hover:text-amber-400 transition-colors text-lg">Login</Link>
+                <Link to="/register" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md bg-amber-500 text-zinc-900 font-medium hover:bg-amber-600 transition-colors mt-2 text-center text-lg">
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

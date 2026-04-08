@@ -1,95 +1,81 @@
-# CineBook v2 🎬  
-*A Full-Stack MERN Application for Movie Ticket Bookings*
+# CineBook
 
-Welcome to **CineBook v2**! This application fulfills the Full-Stack Project pre-requisites involving a MongoDB, Express, React, and Node.js architecture. It enables users to browse movie listings (populated dynamically from the TMDB API), select seats, checkout securely using Stripe, and manage their bookings.
+CineBook is a full-stack MERN application that provides a modern, seamless experience for browsing movie listings and booking tickets. Designed with responsiveness and ease of use in mind, it integrates a rich feature set spanning front-end aesthetics to secure back-end payment processing.
 
-## 🌟 Key Features
+## 🚀 Features
 
-* **JWT Authentication**: User registration and login utilizing bcrypt hashed security and JSON Web Tokens.
-* **Modern UI**: Fully responsive UI designed with Tailwind CSS, lucide-icons, and React context for state management.
-* **Role-Based CRUD**: User dashboard for viewing bookings, and an Admin capability for syncing TMDB movies.
-* **Payment Integration**: Secure Stripe checkout simulation utilizing Payment Elements, with a built-in fallback Demo Mode if keys are not present.
-* **Vite + Express Configuration**: Run both backend and frontend efficiently using server-side Vite middlewares in development.
+- **Dynamic Movie Listings:** Fetches real movie datasets dynamically utilizing the TMDB API.
+- **Seat Selection Engine:** Intuitive, interactive UI to select seats and visualize booked/available seating.
+- **Secure Authentication:** JWT-based robust authentication and authorization with role-based access control (Admin/User).
+- **Stripe Payment Integration:** Secure and simple checkout pipeline simulating real-world booking payments.
+- **Responsive Design:** A beautifully styled, fully responsive frontend using Tailwind CSS for all device sizes, including a mobile-friendly collapsing navigation bar.
+- **Dashboard Management:** Users can view their past and upcoming tickets, check payment statuses, and retry failed payments.
+- **Admin Capabilities:** Authorized users have the ability to sync new movies from TMDB with a single click.
 
-## 🏗️ Project Structure
+## 🛠️ Technology Stack
 
-```
-cinebook v2
-├── backend/                  # Node.js + Express Backend
-│   ├── config/               # Database configurations
-│   ├── controllers/          # Request handlers (movies, auth, admin, etc.)
-│   ├── middleware/           # JWT and Role-validation middleware
-│   ├── models/               # Mongoose schemas for User, Movie, Booking, Theater
-│   ├── routes/               # API endpoints
-│   └── server.js             # Main server entrypoint
-│
-├── frontend/                 # React Frontend via Vite
-│   ├── src/                  # React components, pages, lib, context
-│   ├── index.html            # App shell
-│   ├── package.json          # Frontend dependencies
-│   └── vite.config.js        # Vite configurations
-│
-├── .env.example              # Environment variables template
-├── package.json              # Root workspace management
-└── README.md                 # Project documentation
-```
+- **Frontend:** React, Vite, Tailwind CSS, React Router, Lucide Icons
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB (Mongoose ODM)
+- **Authentication:** JSON Web Tokens (JWT), bcrypt
+- **Payments:** Stripe API
 
-## 🚀 Getting Started
+## 📋 Prerequisites
 
-### 1. Prerequisites
+Please ensure that you have the following installed on your system:
+- [Node.js](https://nodejs.org/) (v16.0 or higher)
+- [MongoDB](https://www.mongodb.com/) (running locally or a cloud MongoDB Atlas URI)
+- Git
 
-Make sure you have installed:
-- [Node.js](https://nodejs.org/en/) (v16+)
-- [MongoDB](https://www.mongodb.com/) (running locally or a Cloud Atlas URI)
+## ⚙️ Installation & Setup
 
-### 2. Environment Variables
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/cinebook.git
+   cd cinebook
+   ```
 
-Clone `.env.example` into a new `.env` file at the root.
+2. **Install all dependencies:**
+   This project uses a root workspace configuration. From the root directory, simply run:
+   ```bash
+   npm install
+   ```
 
-```bash
-cp .env.example .env
-```
+3. **Environment Setup:**
+   Copy the provided `.env.example` file to a new `.env` file at the root of your project:
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Configure the following environment variables in your `.env` file:
+   - `PORT`: (Default: `3000`)
+   - `MONGODB_URI`: Your MongoDB connection string.
+   - `JWT_SECRET`: A secure string for generating JWT tokens.
+   - `TMDB_API_KEY`: API Key from [The Movie Database](https://developer.themoviedb.org/).
+   - `STRIPE_SECRET_KEY`: Your Stripe secret key (optional).
+   - `STRIPE_PUBLISHABLE_KEY`: Your Stripe publishable key (optional).
+   > **Note:** If Stripe keys are omitted, the application securely falls back to a built-in "Demo Mode" for payments!
 
-Set up these **Required Variables** inside your `.env`:
-- `PORT`: (Default: `3000`)
-- `MONGODB_URI`: Your MongoDB connection string.
-- `JWT_SECRET`: A secure string for generating JWT tokens.
-- `TMDB_API_KEY`: API Key from [The Movie Database](https://developer.themoviedb.org/docs/getting-started).
-- `STRIPE_SECRET_KEY`: Your Stripe secret key (optional).
-- `STRIPE_PUBLISHABLE_KEY`: Your Stripe publishable key (optional).
-*Note: If Stripe keys are omitted, the application falls back safely into "Demo Mode" during checkout!*
+4. **Run the Development Server:**
+   Start the development server (runs both the frontend Vite sever and backend Express server concurrently):
+   ```bash
+   npm run dev
+   ```
+   Open your browser and navigate to `http://localhost:3000`.
 
-### 3. Install Dependencies
+## 👨‍💻 Admin Setup
 
-Install root workspace dependencies:
-```bash
-npm install
-```
+To utilize admin features (e.g., Syncing movies from TMDB):
+1. Sign up for a new account through the web interface.
+2. Open your MongoDB GUI (e.g., MongoDB Compass) and locate your newly created user document in the `users` collection.
+3. Update the `role` field from `"user"` to `"admin"`.
+4. Refresh your dashboard to see the **Sync TMDB Movies** button at the top right corner.
 
-### 4. Running the Development Server
+## 📦 Production Build
 
-You can start **both** the Express API server and the Vite Frontend together with a single command!
-
-```bash
-npm run dev
-```
-
-This launches the server at `http://localhost:3000`. The Vite frontend will be seamlessly served alongside the API.
-
-## 👨‍💻 Admin Capabilities & Fetching TMDB
-
-By default, an ordinary registered user is granted the `user` role. If you want to enable **Admin Actions** (such as Syncing TMDB Movies):
-1. Register a new account via the frontend.
-2. Open your MongoDB GUI (e.g. MongoDB Compass) and locate your database (default `movie-booking`).
-3. Locate the `users` collection, edit your User Document, and change the `role` field from `"user"` to `"admin"`.
-4. Refresh your Dashboard page. You'll now see the **Sync TMDB Movies** button at the top header, which instantly seeds top-playing movies into the database!
-
-## 📦 Building for Production
-
-To create an optimized production build:
-
+To generate an optimized build for production deployment:
 ```bash
 npm run build
 npm start
 ```
-This commands your system to generate static artifacts for the frontend in `frontend/dist` and start the server aggressively resolving those files without requiring Vite middlewares.
+This correctly compiles the Vite frontend and configures Express to statically serve the built React application.
